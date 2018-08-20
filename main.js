@@ -49,9 +49,9 @@ function parseAndCalculate(){
     expression = document.getElementById('eq').value
     expr = math.compile(expression)
 
-    // Create arrays that will help us evaluate the function and its derivatives at 20,001 different x values. Having this many x values is a nice balance between speed and smoothness of the graph
-    xValues = math.range(-10, 10, 0.001).toArray()
-    xValuesDerivative = math.range(-10.001, 10.001, 0.001).toArray()
+    // Create arrays that will help us evaluate the function and its derivatives at 629 different x values. Having this many x values is a nice balance between speed and smoothness of the graph
+    xValues = math.range(-2*Math.PI, 2*Math.PI, 0.02).toArray()
+    xValuesDerivative = math.range((-2*Math.PI + 0.02), (2*Math.PI + 0.02), 0.02).toArray()
   }
   // This can obviously go wrong if you type in something stupid in the textbox so we just catch it and throw it where no one can see
   catch (err) {
@@ -83,11 +83,11 @@ function derive1(){
   const yVals = xValuesDerivative.map(function (x) {
     return expr.eval({x: x})
   })
-  var counter = 0; //must be equal to 20001 at the end because we are using 20001 x Values
-  // Go through each and every one of the 20001 x values and y values
+  var counter = 0; //must be equal to 629 at the end because we are using 629 x Values
+  // Go through each and every one of the 629 x values and y values
   for(i = 0; i < xValuesDerivative.length; i++){
     //Because we are using a set number of points, we have to limit it
-    if(counter < 20002){
+    if(counter < 630){
       // calculate the slope between them using (y2 - y1)/(x2 - x1)
       yValuesPrime[counter] = (yVals[i+2] - yVals[i])/(xValuesDerivative[i+2] - xValuesDerivative[i]);
       counter++;
@@ -103,7 +103,7 @@ function derive1(){
 }
 
 function secondDerivative(){
-  const exprDerivative2 = math.derivative(math.derivative(expression, 'x'), 'x');
+  const exprDerivative2 = math.derivative(math.derivative(expression, 'x'),'x');
   const yValuesDerivative2 = xValues.map(function (x) {
     return exprDerivative2.eval({x: x})
   })
@@ -122,10 +122,11 @@ function plot(){
   var layout = {
     autosize: true,
     width: window.innerWidth,
-    height: window.innerHeight,
+    height: window.innerWidth,
     hovermode: false,
     xaxis:{
-      autotick: false,
+      range: [-2*Math.PI,2*Math.PI],
+      autotick: true,
       ticks: 'outside',
       tick0: 0,
       dtick: 1,
@@ -134,7 +135,7 @@ function plot(){
       tickcolor: '#000'
     },
     yaxis: {
-      autotick: false,
+      autotick: true,
       ticks: 'outside',
       tick0: 0,
       dtick: 1,
@@ -177,6 +178,20 @@ function plot(){
 
 //This handles the Graph button and waits for you to press the button before graphing.
 document.getElementById('form').onsubmit = function (event) {
+  //Prevents an empty graph from showing up
+  if(!document.getElementById('eq').value.includes('x')){
+    alert("Invalid entry, try a proper function")
+    //Prevents automatic page refresh on click of button
+    event.preventDefault()
+  } else{
   event.preventDefault()
   plot()
+  }
 }
+
+
+
+// **** IGNORE THIS ****
+// for(i = 0; i < xValues.length;i++){
+//   console.log()
+// }
