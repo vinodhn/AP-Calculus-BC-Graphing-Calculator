@@ -2,9 +2,9 @@
 Graphing calculator project created for AP Calculus BC. This is made in Javascript and uses math.js and plotly.js
 
 # What we need to accomplish
--Graph any polynomial and highlight removable discontinuities
+-Graph any polynomial and highlight removable discontinuities (Can graph, need to highlight now)
 
--Graph logarithmic, trignometric, and exponential functions
+-Graph logarithmic, trignometric, and exponential functions DONE
 
 -Graph f'(x) and f''(x)
 
