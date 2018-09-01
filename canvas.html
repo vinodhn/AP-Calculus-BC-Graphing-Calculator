@@ -22,6 +22,7 @@
        border: solid 1px #c0c0c0;
    }
  </style>
+ <link rel="icon" type="image/png" href="icon.png"/>
 </head>
 <body>
   <center>
@@ -33,8 +34,12 @@
   <label for="function">Equation:</label>
   <input type="text" id="function" value="x^2 + 1" />
   <input type="button" onclick="Draw()" value="Graph" />
-  <input type="checkbox" name="fprime">f'(x)
-  <input type="checkbox" name=f2prime>f''(x)
+  <label for="fprime" style="color:#FF0000">f'(x)</label>
+  <input type="checkbox" name="fprime">
+  <label for="f2prime" style="color:#0000FF">f''(x)</label>
+  <input type="checkbox" name=f2prime>
+  <label for="minmax" style="color:#00FF00">Min / Max</label>
+  <input type="checkbox" name="minmax">
 </form>
 <script type="text/javascript" src="./canvasJS.js">
 </script>
