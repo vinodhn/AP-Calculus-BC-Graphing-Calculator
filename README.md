@@ -6,9 +6,9 @@ Graphing calculator project created for AP Calculus BC. This is made in Javascri
 
 -Graph logarithmic, trignometric, and exponential functions DONE
 
--Graph f'(x) and f''(x)
+-Graph f'(x) and f''(x) DONE
 
--Highlight relative max/min
+-Highlight relative max/min DONE
 
 -Highlight POIs
 
