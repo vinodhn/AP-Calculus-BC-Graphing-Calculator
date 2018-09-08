@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
- <title>Jaidev G. and Vinodh N. | Graphing Calculator Project</title>
- <script src="https://unpkg.com/mathjs@5.1.0/dist/math.min.js"></script>
- <style>
+	<head>
+		<title>Jaidev G. and Vinodh N. | Graphing Calculator Project</title>
+		<script src="https://unpkg.com/mathjs@5.1.0/dist/math.min.js"></script>
+		<style>
    input[type=text] {
      width: 300px;
    }
@@ -22,30 +22,39 @@
        border: solid 1px #c0c0c0;
    }
  </style>
- <link rel="icon" type="image/png" href="icon.png"/>
-</head>
-<body>
-  <center>
-    <canvas id="xy-graph" width="800" height="800">
+		<link rel="icon" type="image/png" href="icon.png"/>
+	</head>
+	<body>
+		<center>
+		<header>
+			<h2> AP Calculus BC Graphing Calculator </h2>
+			<h3> By Vinodh N. and Jaidev G. </h3>
+		</header>
+			<canvas id="xy-graph" width="800" height="800">
       CANVAS NOT SUPPORTED IN THIS BROWSER!
     </canvas>
-<div id="plot"></div>
-<form id="form">
-  <label for="function">Equation:</label>
-  <input type="text" id="function" value="x^2 + 1" />
-  <input type="button" onclick="Draw()" value="Graph" />
-  <label for="fprime" style="color:#FF0000">f'(x)</label>
-  <input type="checkbox" name="fprime">
-  <label for="f2prime" style="color:#0000FF">f''(x)</label>
-  <input type="checkbox" name=f2prime>
-  <label for="minmax" style="color:#00FF00">Min / Max</label>
-  <input type="checkbox" name="minmax">
-</form>
-<script type="text/javascript" src="./canvasJS.js">
-</script>
+		</center>
+		<div id="plot"></div>
+			<center>
+				<form id="form">
+					<label for="function">Equation:</label>
+					<input type="text" id="function" value="x^2 + 1" />
+					<input type="button" onclick="Draw()" value="Graph" />
 
-</center>
+        	<label for="fprime" style="color:#FF0000">f'(x)</label>
+					<input type="checkbox" name="fprime">
 
-</body>
+      		<label for="f2prime" style="color:#0000D7">f''(x)</label>
+					<input type="checkbox" name=f2prime>
 
+					<label for="minmax" style="color:#00FF00">Min / Max</label>
+        	<input type="checkbox" name="minmax">
+
+      		<label for="poi" style="color:#FFD700">POIs</label>
+					<input type="checkbox" name="poi">
+        </form>
+
+        <script type="text/javascript" src="./canvasJS.js"></script>
+			</center>
+	</body>
 </html>

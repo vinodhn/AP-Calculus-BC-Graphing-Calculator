@@ -1,4 +1,4 @@
-var expression, exprCompile, xValues = [], yValues = [], xValuesD = [], yValuesD = [], yValuesD2 = []
+var expression, exprCompile, xValues = [], yValues = [], xValuesD = [], yValuesD = [], yValuesD2 = [], yValuesPOI = []
 var Canvas = document.getElementById('xy-graph')
 var Ctx = null
 var Width = Canvas.width
@@ -6,6 +6,7 @@ var Height = Canvas.height
 var checkbox1 = document.querySelector("input[name=fprime]")
 var checkbox2 = document.querySelector("input[name=f2prime]")
 var checkbox3 = document.querySelector("input[name=minmax]")
+var checkbox4 = document.querySelector("input[name=poi]")
 
 // Defines domain and range of the graph
 function MaxX() {
@@ -58,6 +59,7 @@ function Draw() {
    if(checkbox1.checked){
      GraphPrime();
    }
+
    if(checkbox2.checked){
      GraphPrime2();
    }
@@ -65,6 +67,11 @@ function Draw() {
    if(checkbox3.checked){
      GraphMinMax();
    }
+
+   if(checkbox4.checked){
+     GraphPOI();
+   }
+
 }
 }
 //Deltas are distance between tick marks -- used only for drawing the axes
@@ -268,10 +275,47 @@ function GraphMinMax() {
   Ctx.stroke()
 }
 
+function GraphPOI(){
+
+  for(var i = 0; i < xValuesD.length;i++){
+    var x = xValuesD[i+1]
+    var y2 = yValuesD[i], y1 = yValuesD[i+2]
+    var x2 = xValuesD[i], x1 = xValuesD[i+2]
+    var y = (y2-y1)/(x2-x1)
+    if(i < xValues.length){
+      yValuesD2[i] = y
+    }
+  }
+
+  for(var i = 0; i < xValuesD.length;i++){
+    var x = xValuesD[i+1]
+    var y2 = yValuesD2[i], y1 = yValuesD2[i+2]
+    var x2 = xValuesD[i], x1 = xValuesD[i+2]
+    var y = (y2-y1)/(x2-x1)
+    if(i < xValues.length){
+      yValuesPOI[i] = Math.round(y*10000)/10000;
+      console.log(yValuesPOI[i])
+    }
+  }
+
+  Ctx.beginPath()
+  Ctx.fillStyle = '#FFD700'
+  for(var i = 0; i < xValuesD.length; i++){
+    if(Math.round(yValuesPOI[i]* 1000)/1000 == 0.000){
+      console.log("HELLO2")
+      var x = Math.round(xValuesD[i+1] * 10000)/ 10000
+      var y = Math.round(yValues[i+1] * 10000) / 10000
+      Ctx.moveTo(XC(x),YC(y))
+      Ctx.fillRect(XC(x), YC(y), 1, 3)
+    }
+  }
+  Ctx.stroke()
+}
+
 //Just some user input handling
 document.getElementById('form').onsubmit = function (event) {
   //Prevents an empty graph from showing up
-  if(!document.getElementById('function').value.includes('x')){
+  if(document.getElementById('function').value.indexOf('x') <0){
     alert("Invalid entry, try a proper function")
     //Prevents automatic page refresh on click of button
     event.preventDefault()
