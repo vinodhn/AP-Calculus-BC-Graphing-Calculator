@@ -4,13 +4,13 @@ Graphing calculator project created for AP Calculus BC. This is made in Javascri
 # What we need to accomplish
 -Graph any polynomial and highlight removable discontinuities (Can graph, need to highlight now)
 
--Graph logarithmic, trignometric, and exponential functions DONE
+-Graph logarithmic, trignometric, and exponential functions DONE, except natural log because mathjs doesn't have a special ln function rip
 
 -Graph f'(x) and f''(x) DONE
 
 -Highlight relative max/min DONE
 
--Highlight POIs
+-Highlight POIs DONE
 
 -Calculate FTC given f'(x) for any two points on the domain
 
