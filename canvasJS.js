@@ -1,4 +1,4 @@
-var expression, exprCompile, xValues = [], yValues = [], xValuesD = [], yValuesD = [], yValuesD2 = [], yValuesPOI = []
+var expression, exprCompile, xValues = [], yValues = [], xValuesD = [], xValuesFTC = [], yValuesD = [], yValuesD2 = [], yValuesPOI = []
 var Canvas = document.getElementById('xy-graph')
 var Ctx = null
 var Width = Canvas.width
@@ -7,6 +7,18 @@ var checkbox1 = document.querySelector("input[name=fprime]")
 var checkbox2 = document.querySelector("input[name=f2prime]")
 var checkbox3 = document.querySelector("input[name=minmax]")
 var checkbox4 = document.querySelector("input[name=poi]")
+var checkbox5 = document.querySelector("input[name=ftc]")
+
+checkbox5.addEventListener( 'change', function() {
+  if(this.checked){
+    document.getElementById("point1").disabled = false;
+    document.getElementById("point2").disabled = false;
+  }else{
+    //make sure that no rogue input goes into system
+    document.getElementById("point1").disabled = true;
+    document.getElementById("point2").disabled = true;
+  }
+})
 
 // Defines domain and range of the graph
 function MaxX() {
@@ -70,6 +82,10 @@ function Draw() {
 
    if(checkbox4.checked){
      GraphPOI();
+   }
+
+   if(checkbox5.checked){
+     CalcFTC();
    }
 
 }
@@ -257,7 +273,6 @@ function GraphMinMax() {
     var y = (y2-y1)/(x2-x1)
     if(i < xValues.length){
       yValuesD2[i] = Math.round(y*1000)/1000;
-      console.log(x + "  " + yValuesD2[i])
     }
   }
 
@@ -265,7 +280,6 @@ function GraphMinMax() {
   Ctx.fillStyle = '#00FF00'
   for(var i = 0; i < xValuesD.length; i++){
     if(Math.round(yValuesD2[i]* 1000)/1000 == 0.000){
-      console.log("HELLO")
       var x = Math.round(xValuesD[i+1] * 10000)/ 10000
       var y = Math.round(yValues[i+1] * 10000) / 10000
       Ctx.moveTo(XC(x),YC(y))
@@ -294,7 +308,6 @@ function GraphPOI(){
     var y = (y2-y1)/(x2-x1)
     if(i < xValues.length){
       yValuesPOI[i] = Math.round(y*10000)/10000;
-      console.log(yValuesPOI[i])
     }
   }
 
@@ -302,7 +315,6 @@ function GraphPOI(){
   Ctx.fillStyle = '#FFD700'
   for(var i = 0; i < xValuesD.length; i++){
     if(Math.round(yValuesPOI[i]* 1000)/1000 == 0.000){
-      console.log("HELLO2")
       var x = Math.round(xValuesD[i+1] * 10000)/ 10000
       var y = Math.round(yValues[i+1] * 10000) / 10000
       Ctx.moveTo(XC(x),YC(y))
@@ -310,6 +322,34 @@ function GraphPOI(){
     }
   }
   Ctx.stroke()
+}
+
+function CalcFTC(){
+
+  for(var i = 0; i < xValuesD.length;i++){
+    var x = xValuesD[i+1]
+    var y2 = yValuesD[i], y1 = yValuesD[i+2]
+    var x2 = xValuesD[i], x1 = xValuesD[i+2]
+    var y = (y2-y1)/(x2-x1)
+    if(i < xValues.length){
+      yValuesD2[i] = Math.round(y*1000)/1000;
+    }
+    xValuesFTC[i] = (Math.round(xValuesD[i] * 10000)/10000)
+  }
+
+  var x1 = parseInt(document.getElementById("point1").value);
+  var x2 = parseInt(document.getElementById("point2").value);
+
+  var i1 = xValuesFTC.indexOf(x1);
+  var i2 = xValuesFTC.indexOf(x2);
+
+  var y2 = yValuesD[i2]
+  var y1 = yValuesD[i1];
+
+  var finalFTCVal = Math.round(y2 - y1);
+
+  document.getElementById("ftcVal").innerText = "Calculated FTC Value: " + finalFTCVal
+
 }
 
 //Just some user input handling
