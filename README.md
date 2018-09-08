@@ -12,7 +12,7 @@ Graphing calculator project created for AP Calculus BC. This is made in Javascri
 
 -Highlight POIs DONE
 
--Calculate FTC given f'(x) for any two points on the domain
+-Calculate FTC given f'(x) for any two points on the domain  DONE
 
 -Software block diagram, printout of code w/ comments
 
