@@ -16,10 +16,10 @@ Graphing calculator project created for AP Calculus BC. This is made in Javascri
 
 -Software block diagram, printout of code w/ comments
 
--Derivative Algorithm
+-Derivative Algorithm DONE
 
--Integration Algorithm
+-Integration Algorithm DONE
 
--FTC Algorithm
+-FTC Algorithm DONE
 
 -Powerpoint/ Google Slides for Presentation
