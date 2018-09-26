@@ -3,69 +3,107 @@
 	<head>
 		<title>Jaidev G. and Vinodh N. | Graphing Calculator Project</title>
 		<script src="https://unpkg.com/mathjs@5.1.0/dist/math.min.js"></script>
-		<style>
-   input[type=text] {
-     width: 300px;
-   }
-   input {
-     padding: 6px;
-   }
-   body, html, input {
-     font-family: sans-serif;
-     font-size: 11pt;
-
-   }
-   form {
-     margin: 20px 0;
-   }
-   canvas {
-       border: solid 1px #c0c0c0;
-   }
- </style>
 		<link rel="icon" type="image/png" href="icon.png"/>
+		<style>
+			input[type=text] { width: 300px; }
+
+			input{ padding: 6px;}
+
+			body, html, input{
+				font-family: sans-serif;
+				font-size: 11pt;
+			}
+
+			form {
+				margin: 20px 0;
+			}
+
+			canvas {
+				border: solid 1px #c0c0c0;
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			.columnLeft{
+				float: left;
+				width: 400px;
+				padding: 10px;
+			}
+
+			.columnRight{
+				float: left;
+				width: 1480;
+				height: 1000;
+				background-color: #FFF;
+				padding: 10px;
+			}
+
+			.row:after{
+				content: "";
+				display: table;
+				clear: both;
+			}
+
+			.margin{
+				margin: 15px;
+			}
+		</style>
 	</head>
-	<body>
+
+	<body style="background-color:#909497">
 		<center>
 		<header>
 			<h2> AP Calculus BC Graphing Calculator </h2>
 			<h3> By Vinodh N. and Jaidev G. </h3>
 		</header>
-			<canvas id="xy-graph" width="800" height="800">
-      CANVAS NOT SUPPORTED IN THIS BROWSER!
-    </canvas>
 		</center>
-		<div id="plot"></div>
-			<center>
-				<form id="form">
-					<label for="function">Equation:</label>
-					<input type="text" id="function" value="x^2 + 1" />
-					<input type="button" onclick="Draw()" value="Graph" />
 
-        	<label for="fprime" style="color:#FF0000">f'(x)</label>
-					<input type="checkbox" name="fprime">
+		<div class="row">
+			<div class="columnLeft">
+				<center>
+				<label for="function">f(x) = </label>
+				<input type="text" id="function" value="x^2 + 1" />
+					<div class="margin"></div>
 
-      		<label for="f2prime" style="color:#0000D7">f''(x)</label>
-					<input type="checkbox" name=f2prime>
-
-					<label for="minmax" style="color:#00FF00">Min / Max</label>
-        	<input type="checkbox" name="minmax">
-
-      		<label for="poi" style="color:#FFD700">POIs</label>
-					<input type="checkbox" name="poi">
-
-					<label for="ftc" style="color:#000000">FTC</label>
-					<input type="checkbox" name="ftc">
-        </form>
-				<form id="form2">
-					<label for="point1">First x-value:</label>
-					<input type="text" id="point1" value="5" disabled=true/>
-
-					<label for="point2">Second x-value:</label>
-					<input type="text" id="point2" value="7" disabled = true/>
-
-					<label id="ftcVal">Calculated FTC value: </label>
-				</form>
-        <script type="text/javascript" src="./canvasJS.js"></script>
+				<h3> Graphing Options: </h3>
+				<label for="fprime" style="color:#FF0000">f'(x)</label>
+				<input type="checkbox" name="fprime">
+					<div class="margin"></div>
+				<label for="f2prime" style="color:#0000D7">f''(x)</label>
+				<input type="checkbox" name=f2prime>
+					<div class="margin"></div>
+				<label for="minmax" style="color:#00FF00">Min / Max</label>
+				<input type="checkbox" name="minmax">
+					<div class="margin"></div>
+				<label for="poi" style="color:#FFD700">POIs</label>
+				<input type="checkbox" name="poi">
+					<div class="margin"></div>
+				<label for="ftc" style="color:#000000">FTC</label>
+				<input type="checkbox" name="ftc">
+					<div class="margin"></div>
+				<label for="point1">First x-value:</label>
+				<input type="text" id="point1" value="5" disabled=true/>
+					<div class="margin"></div>
+				<label for="point2">Second x-value:</label>
+				<input type="text" id="point2" value="7" disabled = true/>
+					<div class="margin"></div>
+				<label id="ftcVal">Calculated FTC value: </label>
+					<div class="margin"></div>
+				<input type="button" onclick="Draw()" value="Go!" />
 			</center>
+			</div>
+
+			<div class="columnRight">
+				<center>
+				<canvas id="xy-graph" width="1460" height="800">
+		      CANVAS NOT SUPPORTED IN THIS BROWSER!
+		    </canvas>
+			</center>
+			</div>
+		</div>
+
+	<script type="text/javascript" src="./canvasJS.js"></script>
 	</body>
 </html>

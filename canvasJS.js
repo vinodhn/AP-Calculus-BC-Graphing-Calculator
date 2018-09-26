@@ -1,3 +1,4 @@
+// Sets up the global variables that most of the methods below access and use.
 var expression, exprCompile, xValues = [], yValues = [], xValuesD = [], xValuesFTC = [], yValuesD = [], yValuesD2 = [], yValuesPOI = []
 var Canvas = document.getElementById('xy-graph')
 var Ctx = null
@@ -9,6 +10,7 @@ var checkbox3 = document.querySelector("input[name=minmax]")
 var checkbox4 = document.querySelector("input[name=poi]")
 var checkbox5 = document.querySelector("input[name=ftc]")
 
+//We need this because the input boxes need to be dynamically changed. Just having them enabled all the time could cause problems
 checkbox5.addEventListener( 'change', function() {
   if(this.checked){
     document.getElementById("point1").disabled = false;
@@ -20,7 +22,7 @@ checkbox5.addEventListener( 'change', function() {
   }
 })
 
-// Defines domain and range of the graph
+//Sets up the graphs range and domain
 function MaxX() {
   return 10
 }
@@ -50,19 +52,36 @@ function YC(y) {
 
 //Main function: this handles all the parsing and calculating.
 function Draw() {
-
+  //first get the raw string from your input
  expression = document.getElementById('function').value
- expr = math.compile(expression)
 
+//then use our math.js library to parse it up and make it easy to calculate values
+ if(expression.indexOf("ln(") > -1){
+   var newExpr = expression.replace("ln","log")
+   expr = math.compile(newExpr)
+ }else if(expression.indexOf("log(") > -1){
+   var exp = expression.substring(expression.indexOf("log(")+4, expression.indexOf(")"))
+   var newExp = "log(" + exp + ", 10)"
+   expr = math.compile(newExp)
+ }else{
+ expr = math.compile(expression)
+}
+
+ //Fills in the x value arrays we defined at the top
  xValues = math.range(-10, 10, XSTEP).toArray()
  xValuesD = math.range(-10-XSTEP, 10+XSTEP, XSTEP).toArray()
+
+ //quickly solves for the yValues at a bunch of different x points
  yValues = xValues.map(function (x) {
    return expr.eval({x: x})
  })
+
+ //needs to be done twice because this one gets modified later
  yValuesD = xValuesD.map(function (x) {
    return expr.eval({x: x})
  })
 
+//The REAL main part of this entire document: checks to see what you've selected as your options and does each one, one by one, in order
  if (Canvas.getContext) {
    Ctx = Canvas.getContext('2d')
    Ctx.clearRect(0,0,Width,Height)
@@ -90,6 +109,7 @@ function Draw() {
 
 }
 }
+
 //Deltas are distance between tick marks -- used only for drawing the axes
 function XTickDelta() {
   return 1
@@ -193,7 +213,7 @@ for(var i = -10;  i<11; i++){
 //Aka deltaX
 var XSTEP = MaxX()/10000
 
-//Main drawing function
+//Graph the original function
 function Graph() {
   var first = true
 
@@ -264,6 +284,7 @@ function GraphPrime2() {
   Ctx.stroke()
 }
 
+//Calulate first derivative, see where it equals zero, and then draw markers at those points on the original function
 function GraphMinMax() {
 
   for(var i = 0; i < xValuesD.length;i++){
@@ -289,6 +310,7 @@ function GraphMinMax() {
   Ctx.stroke()
 }
 
+//Calculate the second derivative and see where it equals zero and then draw marker on the original graph
 function GraphPOI(){
 
   for(var i = 0; i < xValuesD.length;i++){
@@ -324,16 +346,11 @@ function GraphPOI(){
   Ctx.stroke()
 }
 
+//First round the x values in the array to make it easier to compare values, find the index in the x value array that matches the x values you inputted
+//Then find the y values at those indexes, then subtract them and display the calculated rounded value at the end
 function CalcFTC(){
 
   for(var i = 0; i < xValuesD.length;i++){
-    var x = xValuesD[i+1]
-    var y2 = yValuesD[i], y1 = yValuesD[i+2]
-    var x2 = xValuesD[i], x1 = xValuesD[i+2]
-    var y = (y2-y1)/(x2-x1)
-    if(i < xValues.length){
-      yValuesD2[i] = Math.round(y*1000)/1000;
-    }
     xValuesFTC[i] = (Math.round(xValuesD[i] * 10000)/10000)
   }
 
@@ -350,17 +367,4 @@ function CalcFTC(){
 
   document.getElementById("ftcVal").innerText = "Calculated FTC Value: " + finalFTCVal
 
-}
-
-//Just some user input handling
-document.getElementById('form').onsubmit = function (event) {
-  //Prevents an empty graph from showing up
-  if(document.getElementById('function').value.indexOf('x') <0){
-    alert("Invalid entry, try a proper function")
-    //Prevents automatic page refresh on click of button
-    event.preventDefault()
-  } else{
-  event.preventDefault()
-  Draw()
-  }
 }
