@@ -4,7 +4,7 @@ Graphing calculator project created for AP Calculus BC. This is made in Javascri
 # What we need to accomplish
 -Graph any polynomial and highlight removable discontinuities (Can graph, need to highlight now)
 
--Graph logarithmic, trignometric, and exponential functions DONE, except natural log because mathjs doesn't have a special ln function rip
+-Graph logarithmic, trignometric, and exponential functions DONE
 
 -Graph f'(x) and f''(x) DONE
 
