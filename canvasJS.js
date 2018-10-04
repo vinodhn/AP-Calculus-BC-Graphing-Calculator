@@ -10,6 +10,15 @@ var checkbox3 = document.querySelector("input[name=minmax]")
 var checkbox4 = document.querySelector("input[name=poi]")
 var checkbox5 = document.querySelector("input[name=ftc]")
 
+var dialog = document.querySelector('#dialog');
+if(!dialog.showModal){
+  dialogPolyfill.registerDialog(dialog);
+}
+dialog.querySelector('button:not([disabled])')
+    .addEventListener('click', function() {
+      dialog.close();
+    });
+
 //We need this because the input boxes need to be dynamically changed. Just having them enabled all the time could cause problems
 checkbox5.addEventListener( 'change', function() {
   if(this.checked){
@@ -17,7 +26,7 @@ checkbox5.addEventListener( 'change', function() {
     document.getElementById("point2").disabled = false;
   }else{
     //make sure that no rogue input goes into system
-    document.getElementById("point1").disabled = true;
+    document.getElementById("pt1").disabled = true;
     document.getElementById("point2").disabled = true;
   }
 })
@@ -349,7 +358,6 @@ function GraphPOI(){
 //First round the x values in the array to make it easier to compare values, find the index in the x value array that matches the x values you inputted
 //Then find the y values at those indexes, then subtract them and display the calculated rounded value at the end
 function CalcFTC(){
-
   for(var i = 0; i < xValuesD.length;i++){
     xValuesFTC[i] = (Math.round(xValuesD[i] * 10000)/10000)
   }
@@ -366,5 +374,9 @@ function CalcFTC(){
   var finalFTCVal = Math.round(y2 - y1);
 
   document.getElementById("ftcVal").innerText = "Calculated FTC Value: " + finalFTCVal
+}
 
+//For the info button
+function showDiag(){
+  dialog.showModal();
 }
