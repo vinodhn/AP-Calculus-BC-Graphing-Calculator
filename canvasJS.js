@@ -26,7 +26,7 @@ checkbox5.addEventListener( 'change', function() {
     document.getElementById("point2").disabled = false;
   }else{
     //make sure that no rogue input goes into system
-    document.getElementById("pt1").disabled = true;
+    document.getElementById("point1").disabled = true;
     document.getElementById("point2").disabled = true;
   }
 })
@@ -373,10 +373,21 @@ function CalcFTC(){
 
   var finalFTCVal = Math.round(y2 - y1);
 
-  document.getElementById("ftcVal").innerText = "Calculated FTC Value: " + finalFTCVal
+  var snackbarContainer = document.querySelector("#snackbarCont");
+  if(finalFTCVal = NaN){
+  var data = {message: 'Calculated FTC Value: ' + finalFTCVal};
+  } else{
+  var data = {message: 'Cannot calculate FTC, invalid input.'};
+  }
+  snackbarContainer.MaterialSnackbar.showSnackbar(data);
 }
 
 //For the info button
 function showDiag(){
   dialog.showModal();
+}
+
+window.onload = function(){
+  document.getElementById("point1").disabled = true;
+  document.getElementById("point2").disabled = true;
 }
