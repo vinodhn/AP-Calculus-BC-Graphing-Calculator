@@ -20,6 +20,6 @@ Graphing calculator project created for AP Calculus BC. This is made in Javascri
 
 -Integration Algorithm DONE
 
--FTC Algorithm --Gotta Redo--
+-FTC Algorithm DONE
 
 -Powerpoint/ Google Slides for Presentation --DOING--
