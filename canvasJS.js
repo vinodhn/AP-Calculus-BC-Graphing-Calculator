@@ -5,7 +5,8 @@ var expression, exprCompile, xValues = [],
     xValuesFTC = [],
     yValuesD = [],
     yValuesD2 = [],
-    yValuesPOI = []
+    yValuesPOI = [],
+    yValuesFTC = []
 var Canvas = document.getElementById('xy-graph')
 var Ctx = null
 var Width = Canvas.width
@@ -104,8 +105,8 @@ function Draw() {
     if (Canvas.getContext) {
         Ctx = Canvas.getContext('2d')
         Ctx.clearRect(0, 0, Width, Height)
-        DrawAxes()
-        Graph();
+        DrawAxes()//Axes are always drawn
+        Graph();//Function is always graphed
         if(checkbox6.checked){
             CalcHoles();
         }
@@ -150,7 +151,7 @@ function DrawAxes() {
 
     //Postive Y axis
     Ctx.beginPath()
-    Ctx.moveTo(XC(0), YC(0))
+    Ctx.moveTo(XC(0), YC(MinY()))
     Ctx.lineTo(XC(0), YC(MaxY()))
     Ctx.strokeStyle = '#000000'
     Ctx.stroke()
@@ -237,7 +238,7 @@ function DrawAxes() {
 }
 
 
-//Aka deltaX
+//Aka the dx in the integral
 var XSTEP = MaxX() / 10000
 
 //Graph the original function
@@ -268,10 +269,10 @@ function GraphPrime() {
     for (var i = 0; i < xValuesD.length; i++) {
         var x = xValuesD[i + 1]
         var y2 = yValuesD[i],
-            y1 = yValuesD[i + 2]
+            y1 = yValuesD[i + 2]// find the y values at the x values mentioned below
         var x2 = xValuesD[i],
-            x1 = xValuesD[i + 2]
-        var y = (y2 - y1) / (x2 - x1)
+            x1 = xValuesD[i + 2]// we find the x values around the x we are looking at
+        var y = (y2 - y1) / (x2 - x1)//Slope formula
         if (first) {
             Ctx.moveTo(XC(x), YC(y))
             first = false
@@ -286,6 +287,7 @@ function GraphPrime() {
 function GraphPrime2() {
     var first = true
 
+    //We always assume that the first derivative hasn't been calculated and so we calculate that first
     for (var i = 0; i < xValuesD.length; i++) {
         var x = xValuesD[i + 1]
         var y2 = yValuesD[i],
@@ -300,6 +302,7 @@ function GraphPrime2() {
 
     Ctx.beginPath()
     Ctx.fillStyle = '#0000FF'
+    //Then we calculate the second derivative and draw our 1x1 squares.
     for (var i = 0; i < xValuesD.length; i++) {
         var x = xValuesD[i + 1]
         var y2 = yValuesD2[i],
@@ -317,9 +320,10 @@ function GraphPrime2() {
     Ctx.stroke()
 }
 
-//Calulate first derivative, see where it equals zero, and then draw markers at those points on the original function
+//Extrema
 function GraphMinMax() {
 
+    //Again, assume first derivative hasn't been calculated and round values we calculate.
     for (var i = 0; i < xValuesD.length; i++) {
         var x = xValuesD[i + 1]
         var y2 = yValuesD[i],
@@ -334,6 +338,7 @@ function GraphMinMax() {
 
     Ctx.beginPath()
     Ctx.fillStyle = '#00FF00'
+    //Interate through all the rounded values from before and find which one equals 0 and where it equals 0 on the x-axis.
     for (var i = 0; i < xValuesD.length; i++) {
         if (Math.round(yValuesD2[i] * 1000) / 1000 == 0.000) {
             var x = Math.round(xValuesD[i + 1] * 10000) / 10000
@@ -345,9 +350,9 @@ function GraphMinMax() {
     Ctx.stroke()
 }
 
-//Calculate the second derivative and see where it equals zero and then draw marker on the original graph
+//Points of Inflection
 function GraphPOI() {
-
+    //Calculate first derivative
     for (var i = 0; i < xValuesD.length; i++) {
         var x = xValuesD[i + 1]
         var y2 = yValuesD[i],
@@ -359,7 +364,7 @@ function GraphPOI() {
             yValuesD2[i] = y
         }
     }
-
+    //Using first derivative calculate second derivative
     for (var i = 0; i < xValuesD.length; i++) {
         var x = xValuesD[i + 1]
         var y2 = yValuesD2[i],
@@ -374,6 +379,7 @@ function GraphPOI() {
 
     Ctx.beginPath()
     Ctx.fillStyle = '#FFD700'
+    //Again, find where the second derivative = 0 and where on the x-axis = 0.
     for (var i = 0; i < xValuesD.length; i++) {
         if (Math.round(yValuesPOI[i] * 1000) / 1000 == 0.000) {
             var x = Math.round(xValuesD[i + 1] * 10000) / 10000
@@ -385,39 +391,63 @@ function GraphPOI() {
     Ctx.stroke()
 }
 
-//First round the x values in the array to make it easier to compare values, find the index in the x value array that matches the x values you inputted
-//Then find the y values at those indexes, then subtract them and display the calculated rounded value at the end
-function CalcFTC() {
-    for (var i = 0; i < xValuesD.length; i++) {
-        xValuesFTC[i] = (Math.round(xValuesD[i] * 10000) / 10000)
-    }
+//FTC
+function CalcFTC(){
+  //Calculate the first derivative and round any x and y values we will use
+  for (var i = 0; i < xValuesD.length; i++) {
+      xValuesFTC[i] = (Math.round(xValuesD[i] * 10000) / 10000)
+      var x = xValuesD[i + 1]
+      var y2 = yValuesD[i],
+          y1 = yValuesD[i + 2]
+      var x2 = xValuesD[i],
+          x1 = xValuesD[i + 2]
+      var y = (y2 - y1) / (x2 - x1)
+      if (i < xValues.length) {
+          yValuesFTC[i] = Math.round(y)*10000/10000
+      }
+  }
 
-    var x1 = parseInt(document.getElementById("point1").value);
-    var x2 = parseInt(document.getElementById("point2").value);
+  var x1 = parseInt(document.getElementById("point1").value);
+  var x2 = parseInt(document.getElementById("point2").value);
+  //Find the indexes the user inputed on our arrays
+  var lowerIndex = xValuesFTC.indexOf(x1);
+  var upperIndex = xValuesFTC.indexOf(x2);
 
-    var i1 = xValuesFTC.indexOf(x1);
-    var i2 = xValuesFTC.indexOf(x2);
+  var ftcValue = 0;
+  //Calculate the areas of tiny rectangeles 0.001 units wide and accumulate them
+  for(var i = lowerIndex; i <=upperIndex; i++){
+    ftcValue += yValuesFTC[i]*XSTEP
+  }
 
-    var y2 = yValuesD[i2]
-    var y1 = yValuesD[i1];
+  ftcValue = Math.round(ftcValue)*10000/10000
 
-    var finalFTCVal = Math.round(y2 - y1);
-
-    var snackbarContainer = document.querySelector("#snackbarCont");
-    if (finalFTCVal != NaN) {
-        var data = {
-            message: 'Calculated FTC Value: ' + finalFTCVal
-        };
-    } else {
-        var data = {
-            message: 'Cannot calculate FTC, invalid input.'
-        };
-    }
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+  //Output
+  var snackbarContainer = document.querySelector("#snackbarCont");
+  if (ftcValue != NaN) {
+      var data = {
+          message: 'Calculated FTC Value: ' + ftcValue
+      };
+  } else {
+      var data = {
+          message: 'Cannot calculate FTC, invalid input.'
+      };
+  }
+  snackbarContainer.MaterialSnackbar.showSnackbar(data);
 }
 
+//Split function at forward slash. If it doesn't have one, it'll ignore the function
 function CalcHoles(){
     var splitIndex = expression.indexOf("/")
+    if(splitIndex == -1){
+      var snackbarContainer = document.querySelector("#snackbarCont");
+      var data = {
+        message: "Function does not have discontinuities or holes."
+      }
+      snackbarContainer.MaterialSnackbar.showSnackbar(data);
+      return;
+    } else {
+      console.log("Hole may exist")
+    }
     var firstExpression = expression.substring(0,splitIndex)
     var firstExpr = math.compile(firstExpression)
     var secondExpression = expression.substring(splitIndex +1)
@@ -436,14 +466,35 @@ function CalcHoles(){
         })
     })
 
+    var holes = [], disconts = []
+
     for (var i = 0; i < xValues.length; i++) {
         if(Math.round(secondY[i] * 10000) / 10000 == 0.000){
           console.log("Hole here at " + Math.round(xValues[i] * 10000)/10000)
+          holes[i] = (Math.round(xValues[i] * 10000)/10000)
         }
         if ((Math.round(firstY[i] * 10000) / 10000 == 0.000) && (Math.round(secondY[i] * 10000) / 10000 == 0.000)) {
             console.log("Removable discontinuity here at " + Math.round(xValues[i] * 10000)/10000)
+            disconts[i] = (Math.round(xValues[i] * 10000)/10000)
+            console.log(disconts[i])
         }
     }
+
+    var holesMsg = "Hole(s) at: ";
+    var discontsMsg = "Discontinuity(ies) at: "
+    for(var i = 0; i < holes.length; i++){
+      if(holes[i] != null){
+      holesMsg = holesMsg + holes[i] + " ";
+      }
+    }
+    for(var i = 0; i < disconts.length; i++){
+      if(disconts[i] != null){
+      discontsMsg = discontsMsg +  disconts[i] + " ";
+      }
+    }
+    var snackbarContainer = document.querySelector("#snackbarCont");
+    var data = { message: holesMsg + "\n " + discontsMsg}
+    snackbarContainer.MaterialSnackbar.showSnackbar(data);
 
 }
 
