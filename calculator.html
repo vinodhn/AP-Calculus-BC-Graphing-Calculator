@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Jaidev G. and Vinodh N. | Graphing Calculator Project</title>
+      <script src="https://unpkg.com/mathjs@5.1.0/dist/math.min.js"></script>
+      <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">
+      <link rel="stylesheet" href="./styles.css">
+      <link rel="icon" type="image/png" href="icon.png"/>
+   </head>
+   <body>
+      <center>
+         <header class="mdl-layout__header mdl-layout__header">
+            <div class="mdl-layout__header-row">
+               <!-- Title -->
+               <span class="mdl-layout-title">Graphing Calculator</span>
+               <!-- Add spacer, to align navigation to the right -->
+               <div class="mdl-layout-spacer"></div>
+               <!-- Navigation -->
+               <nav class="mdl-navigation">
+                  <a class="mdl-navigation__link" href="javascript:showDiag()">About</a>
+               </nav>
+            </div>
+         </header>
+      </center>
+      <div class="row">
+         <div class="columnLeft">
+            <center>
+               <form action="#">
+                  <div class="mdl-textfield mdl-js-textfield">
+                     <input class="mdl-textfield__input" type="text" id="function">
+                     <label class="mdl-textfield__label" for="function">Function to graph [f(x)]</label>
+                  </div>
+               </form>
+               <div class="margin"></div>
+               <h5> Graphing Options </h5>
+               <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="holes">
+               <input type="checkbox" id="holes" name="holes" class="mdl-checkbox__input">
+               <span class="mdl-checkbox__label">Removable Discontinuities (Rational f(x) only)</span>
+               </label>
+               <div class="margin"></div>
+               <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="first">
+               <input type="checkbox" id="first" name="first" class="mdl-checkbox__input">
+               <span class="mdl-checkbox__label">First Derivative [f'(x)]</span>
+               </label>
+               <div class="margin"></div>
+               <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="second">
+               <input type="checkbox" id="second" name="second" class="mdl-checkbox__input">
+               <span class="mdl-checkbox__label">Second Derivative [f''(x)]</span>
+               </label>
+               <div class="margin"></div>
+               <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="extrema">
+               <input type="checkbox" id="extrema" name="extrema" class="mdl-checkbox__input">
+               <span class="mdl-checkbox__label">Relative Extrema [f'(x)=0]</span>
+               </label>
+               <div class="margin"></div>
+               <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="poi">
+               <input type="checkbox" id="poi" name="poi" class="mdl-checkbox__input">
+               <span class="mdl-checkbox__label">Point(s) of inflection [f''(x)=0]</span>
+               </label>
+               <div class="margin"></div>
+               <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="ftc">
+               <input type="checkbox" id="ftc" name="ftc" class="mdl-checkbox__input">
+               <span class="mdl-checkbox__label">Fundamental Theorem of Calculus</span>
+               </label>
+               <div class="margin"></div>
+               <div id="ftcDiv" style="display:none">
+               <img src="ftc.png" alt="Definition of FTC">
+               <div class="margin"></div>
+               <form action="#">
+                  <div class="mdl-textfield mdl-js-textfield">
+                     <input class="mdl-textfield__input" type="text" id="point1">
+                     <label class="mdl-textfield__label" for="point1">a</label>
+                  </div>
+               </form>
+               <div class="margin"></div>
+               <form action="#">
+                  <div class="mdl-textfield mdl-js-textfield">
+                     <input class="mdl-textfield__input" type="text" id="point2">
+                     <label class="mdl-textfield__label" for="point2">b</label>
+                  </div>
+               </form>
+             </div>
+               <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="buttonClick()">Go!</button>
+            </center>
+         </div>
+         <div class="columnRight">
+            <center>
+               <canvas id="graph" width="800" height="800"></canvas>
+            </center>
+         </div>
+      </div>
+      <dialog id="dialog" class="mdl-dialog">
+         <h3 class="mdl-dialog__title">Graphing Calculator for AP Calculus BC</h3>
+         <div class="mdl-dialog__content">
+            <p>
+               A graphing calculator created for our AP Calc BC class.
+               Made by Vinodh N. and Jaidev G.
+            </p>
+         </div>
+         <div class="mdl-dialog__actions">
+            <button type="button" class="mdl-button">Close</button>
+         </div>
+      </dialog>
+      <div id="snackbarCont" class="mdl-js-snackbar mdl-snackbar">
+         <div class="mdl-snackbar__text"></div>
+         <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+      <script type="text/javascript" src="./calculator.js"></script>
+   </body>
+</html>
