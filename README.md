@@ -14,7 +14,7 @@ Graphing calculator project created for AP Calculus BC. This is made in Javascri
 
 -Calculate FTC given f'(x) for any two points on the domain  DONE
 
--Software block diagram, printout of code w/ comments --DOING--
+-Software block diagram, printout of code w/ comments DONE
 
 -Derivative Algorithm DONE
 
@@ -22,4 +22,4 @@ Graphing calculator project created for AP Calculus BC. This is made in Javascri
 
 -FTC Algorithm DONE
 
--Powerpoint/ Google Slides for Presentation --DOING--
+-Powerpoint/ Google Slides for Presentation DONE
