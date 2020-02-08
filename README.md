@@ -1,6 +1,8 @@
 # AP Calculus BC Graphing Calculator Project
 Graphing calculator project created for AP Calculus BC. This is made in Javascript and uses math.js
 
+Try it out at: vinodhn.github.io/projects/graphingcalc/calculator.html
+
 # What we need to accomplish
 -Graph any polynomial and highlight removable discontinuities DONE
 
